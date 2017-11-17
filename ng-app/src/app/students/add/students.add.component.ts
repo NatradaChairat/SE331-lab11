@@ -9,6 +9,7 @@ import {StudentsDataService} from '../../service/students-data.service';
   styleUrls: ['./students.add.component.css']
 })
 export class StudentsAddComponent {
+  students:any;
   student: any = {};
 
   constructor(private studentDataService: StudentsDataService, private router: Router) {
@@ -16,6 +17,14 @@ export class StudentsAddComponent {
 
   ngOnInit() {
     this.student = new Student();
+    this.studentDataService.getStudentsData()
+      .subscribe(students => this.students = students,
+        (error) =>{
+          if(error.status === 401) {
+            this.router.navigate(['login'],{queryParams:{source:'add student'}});
+          }
+        });
+
   }
 
   upQuantity(student: Student) {

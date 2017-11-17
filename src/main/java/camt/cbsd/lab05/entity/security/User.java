@@ -1,7 +1,9 @@
 package camt.cbsd.lab05.entity.security;
 
+import camt.cbsd.lab05.entity.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -14,6 +16,7 @@ import java.util.List;
 @Table(name = "USER")
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Builder
 public class User {
 
@@ -56,6 +59,9 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date lastPasswordResetDate;
+
+    @OneToOne
+    Student student;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

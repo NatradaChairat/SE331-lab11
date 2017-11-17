@@ -52,4 +52,12 @@ public class StudentServiceImpl implements StudentService {
     public Student addStudent(Student student) {
         return studentDao.addStudent(student);
     }
+
+    @Transactional
+    @Override
+    public Student getStudentForTransfer(String username) {
+        Student student = studentDao.findByUsername(username);
+        Hibernate.initialize(student.getAuthorities());
+        return student;
+    }
 }

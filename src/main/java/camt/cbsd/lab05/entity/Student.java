@@ -1,5 +1,7 @@
 package camt.cbsd.lab05.entity;
 
+import camt.cbsd.lab05.entity.security.Authority;
+import camt.cbsd.lab05.entity.security.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import lombok.*;
@@ -30,6 +32,8 @@ public class Student {
     int penAmount;
     String description;
 
+    @OneToOne(mappedBy = "student")
+    User user;
 
     @ManyToMany
     List<Course> enrolledCourse;
@@ -39,5 +43,9 @@ public class Student {
         enrolledCourse.add(course);
         return enrolledCourse;
 
+    }
+
+    public List<Authority> getAuthorities(){
+        return user.getAuthorities();
     }
 }

@@ -25,6 +25,7 @@ import java.util.Date;
 @Component
 public class DataLoader implements ApplicationRunner {
     StudentDao studentDao;
+    User user1,user2,user3;
 
     @Autowired
     UserRepository userRepository;
@@ -85,7 +86,14 @@ public class DataLoader implements ApplicationRunner {
         student3.addCourse(course3);
         securitySetup();
 
+        student1.setUser(user1);
+        user1.setStudent(student1);
+        student2.setUser(user2);
+        user2.setStudent(student2);
+        student3.setUser(user3);
+        user3.setStudent(student3);
     }
+
 
 
     private void securitySetup() {
@@ -93,7 +101,7 @@ public class DataLoader implements ApplicationRunner {
         Authority auth2 = Authority.builder().name(AuthorityName.ROLE_ADMIN).build();
         authorityRepository.save(auth1);
         authorityRepository.save(auth2);
-        User user1 = User.builder()
+        user1 = User.builder()
                 .username("admin")
                 .password("admin")
                 .firstname("admin")
@@ -103,7 +111,7 @@ public class DataLoader implements ApplicationRunner {
                 .lastPasswordResetDate(Date.from(LocalDate.of(2016,01,01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
                 .build();
 
-        User user2 = User.builder()
+        user2 = User.builder()
                 .username("user")
                 .password("user")
                 .firstname("user")
@@ -112,7 +120,7 @@ public class DataLoader implements ApplicationRunner {
                 .enabled(true)
                 .lastPasswordResetDate(Date.from(LocalDate.of(2016,01,01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
                 .build();
-        User user3 = User.builder()
+        user3 = User.builder()
                 .username("disabled")
                 .password("disabled")
                 .firstname("user")
@@ -131,6 +139,7 @@ public class DataLoader implements ApplicationRunner {
         userRepository .save(user1);
         userRepository .save(user2);
         userRepository .save(user3);
+
 
     }
 }
