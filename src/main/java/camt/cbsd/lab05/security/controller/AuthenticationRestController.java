@@ -1,10 +1,12 @@
 package camt.cbsd.lab05.security.controller;
 
 
+import camt.cbsd.lab05.entity.Student;
 import camt.cbsd.lab05.security.JwtAuthenticationRequest;
 import camt.cbsd.lab05.security.JwtTokenUtil;
 import camt.cbsd.lab05.security.JwtUser;
 import camt.cbsd.lab05.security.service.JwtAuthenticationResponse;
+import camt.cbsd.lab05.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +21,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class AuthenticationRestController {
 
     @Value("${jwt.header}")
     private String tokenHeader;
+
+    @Autowired
+    private StudentService studentService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -52,7 +59,12 @@ public class AuthenticationRestController {
         final String token = jwtTokenUtil.generateToken(userDetails, device);
 
         // Return the token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+//        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        Student student = studentService.getStudentForTransfer(authenticationRequest.getUsername());
+        Map result = new HashMap();
+        result.put("token",token);
+        result.put("student",student);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("${jwt.route.authentication.refresh}")
