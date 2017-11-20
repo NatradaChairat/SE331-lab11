@@ -1,12 +1,14 @@
 package camt.cbsd.lab05.security.controller;
 
 
+import camt.cbsd.lab05.config.json.View;
 import camt.cbsd.lab05.entity.Student;
 import camt.cbsd.lab05.security.JwtAuthenticationRequest;
 import camt.cbsd.lab05.security.JwtTokenUtil;
 import camt.cbsd.lab05.security.JwtUser;
 import camt.cbsd.lab05.security.service.JwtAuthenticationResponse;
 import camt.cbsd.lab05.service.StudentService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,7 @@ public class AuthenticationRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @JsonView(View.Login.class)
     @PostMapping("${jwt.route.authentication.path}")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
 
